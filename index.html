@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VGCARCARE - Car Service</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+
+  <!-- NEW HOME PAGE: existing login/customer/admin flow is preserved below -->
+  <section id="homePage" class="screen active">
+    <div class="home-nav">
+      <div class="brand">
+        <div class="logo">VS</div>
+        <div>
+          <strong class="home-brand-name">VGCARCARE</strong>
+          <small>Smart car care, simplified.</small>
+        </div>
+      </div>
+      <button class="home-login-btn" onclick="showPage('loginPage')">Login / Register →</button>
+    </div>
+
+    <div class="festival-marquee">
+      <div class="marquee-label">🎉 FESTIVE OFFERS</div>
+      <div class="marquee-track" id="festivalMarquee"></div>
+    </div>
+
+    <main class="home-container">
+      <section class="home-hero">
+        <div class="home-hero-copy">
+          <span class="eyebrow">VGCARCARE • PREMIUM AUTO CARE</span>
+          <h1>Give your car the<br><span>care it deserves.</span></h1>
+          <p>Book trusted car services, get transparent pricing and receive a unique service ID — all from one simple app.</p>
+          <div class="home-actions">
+            <button class="primary-btn home-cta" onclick="showPage('loginPage')">Book a service →</button>
+            <button class="home-outline-btn" onclick="document.getElementById('homeServices').scrollIntoView({behavior:'smooth'})">Explore services</button>
+          </div>
+          <div class="home-trust">
+            <span>✓ Transparent pricing</span>
+            <span>✓ Easy booking</span>
+            <span>✓ Service history</span>
+          </div>
+        </div>
+        <div class="home-car-image">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1100&q=85" alt="Premium car at a professional service facility" />
+          <div class="image-badge"><b>VGCARCARE</b><small>Professional auto care</small></div>
+        </div>
+      </section>
+
+      <section id="homeServices" class="home-services">
+        <div class="section-head">
+          <span class="eyebrow">CAR CARE MADE SIMPLE</span>
+          <h2>Everything your car needs</h2>
+        </div>
+        <div class="home-service-strip">
+          <div>🔧 <b>Periodic Service</b><small>Maintenance</small></div>
+          <div>❄️ <b>AC Service</b><small>Cooling</small></div>
+          <div>🛞 <b>Brake Service</b><small>Safety</small></div>
+          <div>🧰 <b>Diagnostics</b><small>Vehicle health</small></div>
+          <div>✨ <b>Premium Wash</b><small>Clean & shine</small></div>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <section id="loginPage" class="screen">
+    <div class="login-shell">
+      <div class="brand">
+        <div class="logo">VS</div>
+        <div>
+          <h1>VGCARCARE</h1>
+          <p>Smart car care, simplified.</p>
+        </div>
+      </div>
+
+      <div class="login-card">
+        <div class="login-tabs">
+          <button class="tab active" data-role="customer">Customer</button>
+          <button class="tab" data-role="admin">Admin</button>
+        </div>
+
+        <div class="welcome">
+          <span class="eyebrow">WELCOME BACK</span>
+          <h2 id="loginTitle">Customer Login</h2>
+          <p id="loginSub">Book, track and manage your car services.</p>
+        </div>
+
+        <form id="loginForm">
+          <label>Email / Mobile</label>
+          <input id="loginUser" type="text" placeholder="Enter email or mobile" required />
+
+          <label>Password</label>
+          <input id="loginPassword" type="password" placeholder="Enter password" required />
+
+          <button class="primary-btn" type="submit">Login <span>→</span></button>
+        </form>
+
+        <div class="demo-box">
+          <b>Demo credentials</b>
+          <p id="demoCredentials">Customer: 9876543210 / customer123</p>
+          <p id="demoCredentialsAdmin">Admin: admin@vgcarcare.com / admin123</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="customerPage" class="screen">
+    <header class="topbar">
+      <div class="brand mini"><div class="logo">VS</div><strong>VGCARCARE</strong></div>
+      <button class="icon-btn" onclick="logout()" title="Logout">↪</button>
+    </header>
+
+    <main class="container">
+      <div class="hero-card">
+        <div>
+          <span class="eyebrow">CAR CARE AT YOUR FINGERTIPS</span>
+          <h2>Service your car<br><span>without the hassle.</span></h2>
+          <p>Choose a service, select your date and get your unique service ID.</p>
+        </div>
+        <div class="car-art">🚘</div>
+      </div>
+
+      <div class="section-head">
+        <div><span class="eyebrow">OUR SERVICES</span><h2>What does your car need?</h2></div>
+      </div>
+
+      <div id="serviceGrid" class="service-grid"></div>
+
+      <div class="section-head history-head">
+        <div><span class="eyebrow">MY SERVICES</span><h2>Recent bookings</h2></div>
+      </div>
+      <div id="customerHistory" class="history-list"></div>
+    </main>
+  </section>
+
+  <section id="bookingPage" class="screen">
+    <header class="topbar">
+      <button class="back-btn" onclick="showPage('customerPage')">←</button>
+      <div class="brand mini"><div class="logo">VS</div><strong>Book Service</strong></div>
+      <div></div>
+    </header>
+
+    <main class="container narrow">
+      <div class="booking-head">
+        <span class="eyebrow">SERVICE BOOKING</span>
+        <h2 id="bookingServiceName">Service</h2>
+        <div class="price-pill" id="bookingServiceRate">₹0</div>
+      </div>
+
+      <form id="bookingForm" class="booking-form">
+        <div class="form-card">
+          <h3>Appointment details</h3>
+          <label>Service date</label>
+          <input id="serviceDate" type="date" required />
+
+          <label>How many times has your car come for service?</label>
+          <select id="serviceCount" required>
+            <option value="">Select visit count</option>
+            <option value="1">1st service</option>
+            <option value="2">2nd service</option>
+            <option value="3">3rd service</option>
+            <option value="4">4th service</option>
+            <option value="5">5th+ service</option>
+          </select>
+
+          <label>Customer mobile number</label>
+          <input id="customerMobile" type="tel" maxlength="10" placeholder="10-digit mobile number" required />
+
+          <label>Address</label>
+          <textarea id="customerAddress" rows="3" placeholder="Enter service address" required></textarea>
+        </div>
+
+        <div class="form-card payment-card">
+          <h3>Bill & payment</h3>
+          <div class="bill-row"><span>Service rate</span><b id="billRate">₹0</b></div>
+          <div class="bill-row"><span>Service charge</span><b>₹100</b></div>
+          <div class="bill-row total"><span>Total</span><b id="billTotal">₹0</b></div>
+
+          <label>Payment method</label>
+          <div class="payment-options">
+            <label class="pay-option"><input type="radio" name="payment" value="UPI" checked /> UPI</label>
+            <label class="pay-option"><input type="radio" name="payment" value="Card" /> Card</label>
+            <label class="pay-option"><input type="radio" name="payment" value="Cash" /> Cash</label>
+          </div>
+
+          <button class="primary-btn" type="submit">Confirm & Generate Service ID →</button>
+        </div>
+      </form>
+    </main>
+  </section>
+
+  <section id="successPage" class="screen">
+    <main class="success-wrap">
+      <div class="success-icon">✓</div>
+      <span class="eyebrow">BOOKING CONFIRMED</span>
+      <h2>Your service is booked!</h2>
+      <p>Keep this unique service ID for future tracking.</p>
+      <div class="service-id-box">
+        <span>UNIQUE SERVICE ID</span>
+        <strong id="generatedId">VS-000000</strong>
+      </div>
+      <div id="successDetails" class="success-details"></div>
+      <button class="primary-btn" onclick="showPage('customerPage')">Go to Dashboard</button>
+      <button class="secondary-btn" onclick="logout()">Logout</button>
+    </main>
+  </section>
+
+  <section id="adminPage" class="screen">
+    <header class="topbar">
+      <div class="brand mini"><div class="logo">VS</div><strong>VGCARCARE ADMIN</strong></div>
+      <button class="icon-btn" onclick="logout()">↪</button>
+    </header>
+    <main class="container">
+      <div class="admin-heading">
+        <div><span class="eyebrow">ADMIN CONTROL CENTER</span><h2>Service analytics</h2></div>
+        <div class="admin-date" id="adminDate"></div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><span>Total bookings</span><strong id="statBookings">0</strong></div>
+        <div class="stat-card"><span>Customers</span><strong id="statCustomers">0</strong></div>
+        <div class="stat-card"><span>Revenue</span><strong id="statRevenue">₹0</strong></div>
+        <div class="stat-card"><span>Pending</span><strong id="statPending">0</strong></div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="chart-card">
+          <div class="card-title"><div><span class="eyebrow">POWER BI STYLE ANALYTICS</span><h3>Service rate by service type</h3></div></div>
+          <div class="chart-wrap"><canvas id="serviceChart"></canvas></div>
+          <p class="chart-note">This prototype uses Chart.js to reproduce a Power BI-style visual locally. Connect the same data source to Power BI for a live embedded report.</p>
+        </div>
+
+        <div class="chart-card">
+          <div class="card-title"><div><span class="eyebrow">BOOKINGS</span><h3>Service mix</h3></div></div>
+          <div class="chart-wrap"><canvas id="mixChart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="card-title"><div><span class="eyebrow">SERVICE RECORDS</span><h3>All bookings</h3></div><button class="secondary-btn small" onclick="resetDemoData()">Reset sample data</button></div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Service ID</th><th>Customer</th><th>Mobile</th><th>Service</th><th>Date</th><th>Visits</th><th>Total</th><th>Status</th></tr></thead>
+            <tbody id="bookingTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
